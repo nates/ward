@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <!-- HTML data -->
+        <title>Discord Anti Spam</title>
+        <!-- CSS file -->
+        <link type='text/css' rel="stylesheet" href="../css/style.css">
+        <!-- JavaScript files -->
+        <script type='text/javascript' src="../js/jquery.min.js"></script>
+        <script type='text/javascript' src="../js/particleground.min.js"></script>
+        <script type='text/javascript' src="../js/particles.js"></script>
+        <!-- reCAPTCHA JavaScript file -->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    </head>
+    <body>
+        <div id="particles"></div>
+        <div id="app">
+            <!-- reCAPTCHA form -->
+            <form action="?" method="POST" id="reCAPTCHA">
+                <div class="g-recaptcha" data-sitekey="6Lc2gMsZAAAAAI5MLlggbo1zJvwmD7erpirvAMy9" data-callback="onSubmit"></div>
+            </form>
+        </div>
+        <!-- reCAPTCHA callback function -->
+        <script>
+            function onSubmit() {
+                document.getElementById("reCAPTCHA").submit(); 
+            }
+        </script>
+    </body>
+</html>
