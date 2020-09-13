@@ -1,2 +1,2 @@
 # Discord Verification
- Discord verification bot made in node.js.
+ A Discord verification bot made in node.js.
