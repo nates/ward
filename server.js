@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/verify/:verifyId?', (req, res) => {
-    if (!req.params.verifyId) res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
+    if (!req.params.verifyId) return res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
     if (!pool.isValidLink(req.params.verifyId)) return res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
     res.sendFile(path.join(__dirname, '/html/verify.html'));
 })
