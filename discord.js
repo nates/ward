@@ -15,7 +15,7 @@ client.on('guildMemberAdd', member => {
     const linkId = pool.createLink(member.id);
     const embed = new Discord.MessageEmbed()
         .setTitle('reCAPTCHA Verification')
-        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttps://localhost:8080/verify/${linkId}`)
+        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttp://localhost:8080/verify/${linkId}`)
         .setColor('BLUE')
     member.send(embed)
 })
