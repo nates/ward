@@ -6,9 +6,13 @@ const discord_verified_role = '';
 // reCAPTCHA v2 secret key
 const recaptcha_secret_key = '';
 
+// Domain
+const domain = 'localhost';
+
 module.exports = {
     discord_bot_token,
     discord_guild_id,
     discord_verified_role,
-    recaptcha_secret_key
+    recaptcha_secret_key,
+    domain
 }
