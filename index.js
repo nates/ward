@@ -1,4 +1,4 @@
-const discord = require('./discord')
+const discord = require('./discord');
 discord.run();
 
 const webserver = require('./server');
