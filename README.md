@@ -1,3 +1,6 @@
+# Archived
+As of January 2021 I will be discontinuing this project.
+
 # Discord Verification
  A Discord verification bot made in node.js using reCAPTCHA to verify users.
 
