@@ -2,9 +2,6 @@
 A Discord verification bot using reCAPTCHA v2. 
 ## 🧳 Requirements
 * node.js (I used v12.18.1)
-* express (latest)
-* axios (latest)
-* discord.js (latest)
 
 ## 🔌 Installation
 ```
