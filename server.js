@@ -2,6 +2,8 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
+const https = require('https');
+const fs = require('fs');
 const { Signale } = require('signale');
 const pool = require('./pool');
 const discord = require('./discord');
@@ -43,7 +45,14 @@ app.post('/verify/:verifyId?', async (req, res) => {
 });
 
 function main() {
-    app.listen(port, () => logger.info(`Listening on port ${port}.`));
+    if (config.https) {
+        https.createServer({
+            key: fs.readFileSync('private.pem'),
+            cert: fs.readFileSync('certificate.pem')
+        }, app).listen(port, () => logger.info(`Listening on port ${port}.`));
+    } else {
+        app.listen(port, () => logger.info(`Listening on port ${port}.`));
+    }
 }
 
 module.exports = {
