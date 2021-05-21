@@ -1,42 +1,50 @@
+// Packages
 const Discord = require('discord.js');
+const { Signale } = require('signale');
 const pool = require('./pool');
+
+// Config
+const config = require('./config.json');
+
+// Variables
 const client = new Discord.Client();
-const {
-    discord_guild_id,
-    discord_bot_token,
-    discord_verified_role,
-    domain
-} = require('./variables')
+const logger = new Signale({ scope: 'Discord' });
 
-client.on('ready', () => {
-    console.log('[Discord] Bot started.')
-})
-
-client.on('guildMemberAdd', member => {
-    const linkId = pool.createLink(member.id);
-    const embed = new Discord.MessageEmbed()
-        .setTitle('reCAPTCHA Verification')
-        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttp://${domain == '' ? 'localhost:8080' : domain}/verify/${linkId}`)
-        .setColor('BLUE')
-    member.send(embed)
-})
-
+// Function to start the Discord bot
 function main() {
-    client.login(discord_bot_token).catch(e => {
-        console.log('[Discord] Invalid bot token!');
-        process.exit(0)
-    })
+    logger.info('Logging in...');
+    client.login(config.discord.token).catch(() => {
+        logger.fatal('Failed to login!');
+        process.exit(0);
+    }).then(() => {
+        logger.success('Logged in!');
+    });
 }
 
-async function addRole(discordId) {
+// Events
+// Send user the captcha when they join the server
+client.on('guildMemberAdd', member => {
+    const linkID = pool.createLink(member.id);
+    const embed = new Discord.MessageEmbed()
+        .setTitle('reCAPTCHA Verification')
+        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
+        .setColor('BLUE');
+    member.send(embed).catch(() => {
+        logger.error(`Failed to send captcha to ${member.user.username}#${member.user.discriminator}! (Maybe they have DMs turned off?)`);
+    });
+});
+
+// Add verified role to user
+async function addRole(userID) {
     try {
-        var guild = await client.guilds.fetch(discord_guild_id);
-        var member = await guild.members.fetch(discordId);
-        var role = await guild.roles.cache.find(r => r.name === discord_verified_role);
-        member.roles.add(role)
-        console.log(`Added roles to user ${discordId}.`)
+        const guild = await client.guilds.fetch(config.discord['guild-id']);
+        const role = await guild.roles.fetch(config.discord['verified-role-id']);
+        const member = await guild.members.fetch(userID);
+        member.roles.add(role).then(() => {
+            logger.info(`Added verified role to user ${member.user.username}#${member.user.discriminator}.`);
+        });
     } catch (e) {
-        console.log(`Error adding role to user ${discordId}.`);
+        logger.error(`Failed to add role to user ${userID}!`);
     }
 }
 

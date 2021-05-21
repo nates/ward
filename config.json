@@ -1,0 +1,13 @@
+{
+    "domain": "example.com",
+    "https": false,
+    "discord": {
+        "token": "",
+        "guild-id": "",
+        "verified-role-id": ""
+    },
+    "recaptcha": {
+        "secret-key": "",
+        "public-key": ""
+    }
+}

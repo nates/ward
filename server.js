@@ -1,30 +1,35 @@
+// Packages
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
+const { Signale } = require('signale');
 const pool = require('./pool');
 const discord = require('./discord');
-const {
-    recaptcha_secret_key
-} = require('./variables');
 
-const port = 8080;
+// Config
+const config = require('./config.json');
+
+// Variables
+const logger = new Signale({ scope: 'Express' });
 const app = express();
-app.use(express.static(path.join(__dirname, '/assets')));
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+const port = config.https ? 443 : 80;
 
+// Define render engine and assets path
+app.engine('html', require('ejs').renderFile);
+app.use(express.static(path.join(__dirname, '/assets')));
+
+// GET /verify/id
 app.get('/verify/:verifyId?', (req, res) => {
     if (!req.params.verifyId) return res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
     if (!pool.isValidLink(req.params.verifyId)) return res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
-    res.sendFile(path.join(__dirname, '/html/verify.html'));
+    res.render(path.join(__dirname, '/html/verify.html'), { publicKey: config.recaptcha['public-key'] });
 });
 
+// POST /verify/id
 app.post('/verify/:verifyId?', async (req, res) => {
     const response = await axios({
         method: 'post',
-        url: `https://www.google.com/recaptcha/api/siteverify?secret=${recaptcha_secret_key}&response=${req.body['g-recaptcha-response']}`,
+        url: `https://www.google.com/recaptcha/api/siteverify?secret=${config.recaptcha['secret-key']}&response=${req.body['g-recaptcha-response']}`,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -38,7 +43,7 @@ app.post('/verify/:verifyId?', async (req, res) => {
 });
 
 function main() {
-    app.listen(port, () => console.log(`[Express] Listening on port ${port}.`));
+    app.listen(port, () => logger.info(`Listening on port ${port}.`));
 }
 
 module.exports = {
