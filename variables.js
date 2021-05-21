@@ -7,7 +7,7 @@ const discord_verified_role = '';
 const recaptcha_secret_key = '';
 
 // Domain
-const domain = '';
+const domain = ''; // Leave empty for localhost
 
 module.exports = {
     discord_bot_token,
@@ -15,4 +15,4 @@ module.exports = {
     discord_verified_role,
     recaptcha_secret_key,
     domain
-};
+}
