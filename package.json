@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "author": "nates",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "discord.js": "^12.3.1",
