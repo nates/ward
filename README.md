@@ -1,4 +1,4 @@
-# 🔑 Discord Verification
+# 🔑 ward
 A Discord verification bot using reCAPTCHA v2. 
 ## 🧳 Requirements
 * node.js (I used v12.18.1)
