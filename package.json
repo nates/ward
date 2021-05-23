@@ -1,5 +1,5 @@
 {
-  "name": "discord-verification",
+  "name": "ward",
   "version": "2.0.0",
   "description": "A Discord verification bot using reCAPTCHA v2.",
   "main": "index.js",
