@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const axios = require('axios');
 const https = require('https');
-const bodyParser = require('body-parser');
 const fs = require('fs');
 const { Signale } = require('signale');
 const pool = require('./pool');
@@ -20,7 +19,10 @@ const port = config.https ? 443 : 80;
 // Define render engine and assets path
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, '/assets')));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
 // GET /verify/id
 app.get('/verify/:verifyId?', (req, res) => {

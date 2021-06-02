@@ -7,13 +7,15 @@ const pool = require('./pool');
 const config = require('./config.json');
 
 // Variables
-const client = new Discord.Client({ ws: { intents: ['GUILDS', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'] } });
+const intents = new Discord.Intents();
+if (config.discord.privileged_intents) intents.add('GUILD_MEMBERS', 'DIRECT_MESSAGES');
+const client = new Discord.Client({ ws: { intents: intents } });
 const logger = new Signale({ scope: 'Discord' });
 
 // Function to start the Discord bot
 function main() {
     logger.info('Logging in...');
-    client.login(config.discord.token).catch(() => {
+    client.login(config.discord.token).catch((e) => {
         logger.fatal('Failed to login!');
         process.exit(0);
     }).then(() => {
@@ -40,7 +42,9 @@ async function addRole(userID) {
         const guild = await client.guilds.fetch(config.discord['guild-id']);
         const role = await guild.roles.fetch(config.discord['verified-role-id']);
         const member = await guild.members.fetch(userID);
-        member.roles.add(role).then(() => {
+        member.roles.add(role).catch(() => {
+            logger.error(`Failed to add role to user ${userID}! (Maybe verified role is above bot role?)`);
+        }).then(() => {
             logger.info(`Added verified role to user ${member.user.username}#${member.user.discriminator}.`);
         });
     } catch (e) {
