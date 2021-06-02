@@ -4,7 +4,8 @@
     "discord": {
         "token": "",
         "guild-id": "",
-        "verified-role-id": ""
+        "verified-role-id": "",
+        "privileged_intents": true
     },
     "recaptcha": {
         "secret-key": "",
