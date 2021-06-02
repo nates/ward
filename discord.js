@@ -7,7 +7,7 @@ const pool = require('./pool');
 const config = require('./config.json');
 
 // Variables
-const client = new Discord.Client({ ws: { intents: ['GUILDS', 'GUILD_MEMBERS'] } });
+const client = new Discord.Client({ ws: { intents: ['GUILDS', 'GUILD_MEMBERS', 'DIRECT_MESSAGES'] } });
 const logger = new Signale({ scope: 'Discord' });
 
 // Function to start the Discord bot
