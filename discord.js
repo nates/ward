@@ -47,7 +47,7 @@ async function addRole(userID) {
             return;
         });
         logger.info(`Added verified role to user ${member.user.tag}.`);
-    } catch () {
+    } catch (e) {
         logger.error(`Failed to add role to user ${userID}!`);
     }
 }
