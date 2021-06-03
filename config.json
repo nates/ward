@@ -1,14 +1,10 @@
 {
-    "domain": "example.com",
-    "https": false,
     "discord": {
-        "token": "",
         "guild-id": "",
         "verified-role-id": "",
         "privileged-intents": true
     },
     "recaptcha": {
-        "secret-key": "",
         "public-key": ""
     }
 }

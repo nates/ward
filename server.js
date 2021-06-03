@@ -14,7 +14,7 @@ const config = require('./config.json');
 // Variables
 const logger = new Signale({ scope: 'Express' });
 const app = express();
-const port = config.https ? 443 : 80;
+const port = 80;
 
 // Define render engine and assets path
 app.engine('html', require('ejs').renderFile);
@@ -37,7 +37,7 @@ app.post('/verify/:verifyId?', async (req, res) => {
 
     const response = await axios({
         method: 'post',
-        url: `https://www.google.com/recaptcha/api/siteverify?secret=${config.recaptcha['secret-key']}&response=${req.body['g-recaptcha-response']}`,
+        url: `https://www.google.com/recaptcha/api/siteverify?secret=${process.env['secret_key']}&response=${req.body['g-recaptcha-response']}`,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -51,14 +51,7 @@ app.post('/verify/:verifyId?', async (req, res) => {
 });
 
 function main() {
-    if (config.https) {
-        https.createServer({
-            key: fs.readFileSync('private.pem'),
-            cert: fs.readFileSync('certificate.pem')
-        }, app).listen(port, () => logger.info(`Listening on port ${port}.`));
-    } else {
-        app.listen(port, () => logger.info(`Listening on port ${port}.`));
-    }
+    app.listen(port, () => logger.info(`Listening on port ${port}.`));
 }
 
 module.exports = {

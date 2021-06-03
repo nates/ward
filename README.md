@@ -1,3 +1,6 @@
+# IMPORTANT
+Add your Discord token and reCAPTCHA site key as environment variables under the names: `token` and `secret_key`
+
 # 🔑 ward
 A Discord verification bot using reCAPTCHA v2. 
 ## 🧳 Requirements
