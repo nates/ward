@@ -5,7 +5,7 @@
         "token": "",
         "guild-id": "",
         "verified-role-id": "",
-        "privileged_intents": true
+        "privileged-intents": true
     },
     "recaptcha": {
         "secret-key": "",
