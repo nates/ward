@@ -29,7 +29,7 @@ client.on('guildMemberAdd', member => {
     const linkID = pool.createLink(member.id);
     const embed = new Discord.MessageEmbed()
         .setTitle('reCAPTCHA Verification')
-        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttp://${process.env['REPL_SLUG']}.${process.env['REPL_OWNER']}.repl.co/verify/${linkID}`)
+        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttps://${process.env['REPL_SLUG']}.${process.env['REPL_OWNER']}.repl.co/verify/${linkID}`)
         .setColor('BLUE');
     member.send(embed).catch(() => {
         logger.error(`Failed to send captcha to ${member.user.username}#${member.user.discriminator}! (Maybe they have DMs turned off?)`);
