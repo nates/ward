@@ -15,7 +15,7 @@ const logger = new Signale({ scope: 'Discord' });
 // Function to start the Discord bot
 function main() {
     logger.info('Logging in...');
-    client.login(config.discord.token).catch((e) => {
+    client.login(config.discord.token).catch(() => {
         logger.fatal('Failed to login!');
         process.exit(0);
     }).then(() => {
@@ -32,7 +32,7 @@ client.on('guildMemberAdd', member => {
         .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
         .setColor('BLUE');
     member.send(embed).catch(() => {
-        logger.error(`Failed to send captcha to ${member.user.username}#${member.user.discriminator}! (Maybe they have DMs turned off?)`);
+        logger.error(`Failed to send captcha to ${member.user.tag}! (Maybe they have DMs turned off?)`);
     });
 });
 
@@ -43,11 +43,11 @@ async function addRole(userID) {
         const role = await guild.roles.fetch(config.discord['verified-role-id']);
         const member = await guild.members.fetch(userID);
         member.roles.add(role).catch(() => {
-            logger.error(`Failed to add role to user ${userID}! (Maybe verified role is above bot role?)`);
-        }).then(() => {
-            logger.info(`Added verified role to user ${member.user.username}#${member.user.discriminator}.`);
+            logger.error(`Failed to add role to user ${member.user.tag}! (Maybe verified role is above bot role?)`);
+            return;
         });
-    } catch (e) {
+        logger.info(`Added verified role to user ${member.user.tag}.`);
+    } catch () {
         logger.error(`Failed to add role to user ${userID}!`);
     }
 }
