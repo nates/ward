@@ -8,7 +8,7 @@ const config = require('./config.json');
 
 // Variables
 const intents = new Discord.Intents();
-if (config.discord.privileged_intents) intents.add('GUILD_MEMBERS', 'DIRECT_MESSAGES');
+if (config.discord.privileged-intents) intents.add('GUILD_MEMBERS', 'DIRECT_MESSAGES');
 const client = new Discord.Client({ ws: { intents: intents } });
 const logger = new Signale({ scope: 'Discord' });
 
