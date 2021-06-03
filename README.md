@@ -16,6 +16,12 @@ Register a site with reCAPTCHA [here](https://www.google.com/recaptcha/admin/cre
 npm start
 ```
 
+## ❓ Issues
+### Bot failing to login
+If you have `privileged_intents` set to `true` in the config, you must go to your Discord bot dashboard and enable both intents. Note: If your bot is more than 100 servers, you will have to verify your bot.
+![Intents](https://i.imgur.com/D2fDMjE.png)
+
+
 ## 📷 Preview
 ![Embed](https://i.imgur.com/zomEnpw.png)
 ![Website](https://i.imgur.com/tmrcyjF.png)
