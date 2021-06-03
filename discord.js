@@ -32,7 +32,7 @@ client.on('guildMemberAdd', member => {
         .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\nhttps://${process.env['REPL_SLUG']}.${process.env['REPL_OWNER']}.repl.co/verify/${linkID}`)
         .setColor('BLUE');
     member.send(embed).catch(() => {
-        logger.error(`Failed to send captcha to ${member.user.username}#${member.user.discriminator}! (Maybe they have DMs turned off?)`);
+        logger.error(`Failed to send captcha to ${member.user.tag}! (Maybe they have DMs turned off?)`);
     });
 });
 
@@ -43,10 +43,10 @@ async function addRole(userID) {
         const role = await guild.roles.fetch(config.discord['verified-role-id']);
         const member = await guild.members.fetch(userID);
         member.roles.add(role).catch(() => {
-            logger.error(`Failed to add role to user ${userID}! (Maybe verified role is above bot role?)`);
-        }).then(() => {
-            logger.info(`Added verified role to user ${member.user.username}#${member.user.discriminator}.`);
-        });
+            logger.error(`Failed to add role to user ${member.user.tag}! (Maybe verified role is above bot role?)`);
+            return;
+        })
+        logger.info(`Added verified role to user ${member.user.tag}.`);
     } catch (e) {
         logger.error(`Failed to add role to user ${userID}!`);
     }
