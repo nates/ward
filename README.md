@@ -1,4 +1,6 @@
 # IMPORTANT
+Your domain for reCAPTCHA will be at the top right of your replit project:
+![Domain](https://i.imgur.com/JTtkc5c.png)
 Add your Discord token and reCAPTCHA site key as environment variables under the names: `token` and `secret_key`
 
 # 🔑 ward
