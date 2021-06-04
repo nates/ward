@@ -1,7 +1,7 @@
 # 🔑 ward
 A Discord verification bot using reCAPTCHA v2. 
 
-Run on [repl.it](https://replit.com/@nates3/ward)
+[![Run on Repl.it](https://repl.it/badge/github/nates/ward)](https://repl.it/@nates3/ward)
 ## 🧳 Requirements
 * node.js (I used v12.18.1)
 
