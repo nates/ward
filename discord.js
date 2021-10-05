@@ -2,8 +2,7 @@
 const { Client, Intents, Discord } = require('discord.js');
 const { Signale } = require('signale');
 const pool = require('./pool');
-const { MessageEmbed } = require('discord.js');
-
+const { MessageActionRow, MessageButton, MessageEmbed, Interactions } = require('discord.js');
 // Config
 const config = require('./config.json');
 
@@ -27,13 +26,37 @@ function main() {
 // New Status
 client.on('ready', () => {
     const status = config.discord['status'];
-client.user.setActivity(status, {type: 'PLAYING'});
+    client.user.setActivity(status, {type: 'PLAYING'});
     logger.success('Status Set!');
+});
+
+// Interactions
+client.on('interactionCreate', interaction => {
+// Embed define
+      const sucess = new MessageEmbed()
+          .setColor('#0099ff')
+          .setTitle('Sucess!')
+          .setDescription('You sucessfully agreed to the rules!');
+    if (!interaction.isButton()) return;
+        if (interaction.isButton("rulesa")) {
+        console.log("User agreed to rules!")
+        interaction.deferUpdate();
+	const user = client.users.cache.get(interaction.user.id);
+	user.send("You have sucessfully agreed to rules.").catch(console.error);
+    	    const linkID = pool.createLink(user.id);
+    const embed2 = new MessageEmbed()
+        .setTitle('reCAPTCHA Verification')
+        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
+        .setColor('BLUE');
+    user.send({ embeds: [embed2] }).catch(() => {
+        logger.error(`Failed to send captcha to user! (Maybe they have DMs turned off?)`);
+})
+}
 });
 
 // Commands
 const prefix = config.discord['prefix'];
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
   // Exit and stop if the prefix is not there or if user is a bot
   if (!message.content.startsWith(prefix) || message.author.bot) return;
     if(message.content.startsWith(`${prefix}ping`)){
@@ -44,6 +67,24 @@ client.on("messageCreate", (message) => {
         message.channel.send('Whoops, your already verified!')
         return;
     }
+if (config.discord['rulesenabled'] == true) {
+const row = new MessageActionRow()
+  .addComponents(
+      new MessageButton()
+          .setCustomId('rulesa')
+          .setLabel('Verify')
+          .setStyle('SUCCESS'),
+  );
+      const embed = new MessageEmbed()
+          .setColor('#0099ff')
+          .setTitle('Rules!')
+          .setURL('https://snaildos.com')
+          .setDescription(config.discord['rules']);
+
+     await message.author.send({ content: 'Rules time!', ephemeral: true, embeds: [embed], components: [row] });
+     message.channel.send("Please check your DMS!")
+    }
+} else {
         message.channel.send('Please check your DMS!')
     	    const linkID = pool.createLink(message.author.id);
     const embed2 = new MessageEmbed()
@@ -52,8 +93,7 @@ client.on("messageCreate", (message) => {
         .setColor('BLUE');
     message.author.send({ embeds: [embed2] }).catch(() => {
         logger.error(`Failed to send captcha to user! (Maybe they have DMs turned off?)`);
-    });
-    }
+})}
 });
 
 // Events

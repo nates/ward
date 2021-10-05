@@ -1,5 +1,5 @@
 {
-    "domain": "example.com",
+    "domain": "localhost",
     "https": false,
     "discord": {
         "token": "",
@@ -9,7 +9,10 @@
         "remove-role": false,
         "remove-role-id": "",
         "prefix": "!",
-        "status": "Unverified users!"
+        "status": "Unverified users!",
+        "_comment": "By default, rules are set to disabled, this means rules will be hidden. If you want to use the rules function, change disabled to your rules. Please ensure you use \n for each line break and do not use any symbols that could interfear with JSON.",
+        "rulesenabled": false,
+        "rules": "Type your rules here if rulesenabled is enabled, ensure to use \n for new lines"
     },
     "recaptcha": {
         "secret-key": "",
