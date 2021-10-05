@@ -46,6 +46,7 @@ app.post('/verify/:verifyId?', async (req, res) => {
     if (!response.data.success) return res.sendFile(path.join(__dirname, '/html/invalidCaptcha.html'));
     if (!pool.isValidLink(req.params.verifyId)) return res.sendFile(path.join(__dirname, '/html/invalidLink.html'));
     discord.addRole(pool.getDiscordId(req.params.verifyId));
+    discord.removeRole(pool.getDiscordId(req.params.verifyId));
     pool.removeLink(req.params.verifyId);
     res.sendFile(path.join(__dirname, '/html/valid.html'));
 });
