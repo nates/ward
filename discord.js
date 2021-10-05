@@ -58,7 +58,7 @@ async function removeRole(userID) {
         const guild = await client.guilds.fetch(config.discord['guild-id']);
         const remrole = await guild.roles.fetch(config.discord['remove-role-id']);
         const member = await guild.members.fetch(userID);
-        if remrole == "true" {
+        if (remrole == "true") {
         member.roles.remove(remrole).catch(() => {
             logger.error(`Failed to remove role to user ${member.user.tag}! (Maybe role is above bot role?)`);
             return;
