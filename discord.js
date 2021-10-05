@@ -52,7 +52,27 @@ async function addRole(userID) {
     }
 }
 
+// Remove another role from user.
+async function removeRole(userID) {
+    try {
+        const guild = await client.guilds.fetch(config.discord['guild-id']);
+        const remrole = await guild.roles.fetch(config.discord['remove-role-id']);
+        const member = await guild.members.fetch(userID);
+        if remrole == "true" {
+        member.roles.remove(remrole).catch(() => {
+            logger.error(`Failed to remove role to user ${member.user.tag}! (Maybe role is above bot role?)`);
+            return;
+        });
+        logger.info(`Removed role to user ${member.user.tag}.`);
+    } catch (e) {
+        logger.error(`Failed to add role to user ${userID}!`);
+    }
+   } else {
+         logger.info(`Remove role is set to false, step skipped.`)
+}
+
 module.exports = {
     run: main,
     addRole
+    removeRole
 };

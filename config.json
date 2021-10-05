@@ -5,7 +5,9 @@
         "token": "",
         "guild-id": "",
         "verified-role-id": "",
-        "privileged-intents": true
+        "privileged-intents": true,
+        "remove-role": false, # Set to true if you want the bot to remove a role when verified
+        "remove-role-id": "" # Only works if above is set to true.
     },
     "recaptcha": {
         "secret-key": "",
