@@ -5,10 +5,11 @@
         "token": "",
         "guild-id": "",
         "verified-role-id": "",
-        "privileged-intents": true,
         "_comment": "Below is for users that want to have a role removed upon verification, if you want this, set remove-role to true, and set your remove role ID.",
         "remove-role": false,
-        "remove-role-id": ""
+        "remove-role-id": "",
+        "prefix": "!",
+        "status": "Unverified users!"
     },
     "recaptcha": {
         "secret-key": "",

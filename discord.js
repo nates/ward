@@ -1,27 +1,60 @@
 // Packages
-const Discord = require('discord.js');
+const { Client, Intents, Discord } = require('discord.js');
 const { Signale } = require('signale');
 const pool = require('./pool');
+const { MessageEmbed } = require('discord.js');
 
 // Config
 const config = require('./config.json');
 
 // Variables
-const intents = new Discord.Intents();
-if (config.discord['privileged-intents']) intents.add('GUILD_MEMBERS', 'DIRECT_MESSAGES');
-const client = new Discord.Client({ ws: { intents: intents } });
+const myIntents = new Intents();
+myIntents.add(Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES);
+const client = new Client({ intents: myIntents });
 const logger = new Signale({ scope: 'Discord' });
 
 // Function to start the Discord bot
 function main() {
     logger.info('Logging in...');
     client.login(config.discord.token).catch(() => {
-        logger.fatal('Failed to login!');
+        logger.fatal('Failed to login! Is your intents enabled?');
         process.exit(0);
     }).then(() => {
         logger.success('Logged in!');
     });
 }
+
+// New Status
+client.on('ready', () => {
+    const status = config.discord['status'];
+client.user.setActivity(status, {type: 'PLAYING'});
+    logger.success('Status Set!');
+});
+
+// Commands
+const prefix = config.discord['prefix'];
+client.on("messageCreate", (message) => {
+  // Exit and stop if the prefix is not there or if user is a bot
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if(message.content.startsWith(`${prefix}ping`)){
+    	message.channel.send('Pong!');
+    }
+    if(message.content.startsWith(`${prefix}verify`)){
+    if (message.member.roles.cache.has(config.discord['verified-role-id'])) {
+        message.channel.send('Whoops, your already verified!')
+        return;
+    }
+        message.channel.send('Please check your DMS!')
+    	    const linkID = pool.createLink(message.author.id);
+    const embed2 = new MessageEmbed()
+        .setTitle('reCAPTCHA Verification')
+        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
+        .setColor('BLUE');
+    message.author.send({ embeds: [embed2] }).catch(() => {
+        logger.error(`Failed to send captcha to user! (Maybe they have DMs turned off?)`);
+    });
+    }
+});
 
 // Events
 // Send user the captcha when they join the server
@@ -54,7 +87,7 @@ async function addRole(userID) {
 
 // Remove another role from user.
 async function removeRole(userID) {
-    const ifremrole = await guild.roles.fetch(config.discord['remove-role']);
+    const ifremrole = config.discord['remove-role'];
     if (ifremrole == true) {
     try {
         const guild = await client.guilds.fetch(config.discord['guild-id']);
