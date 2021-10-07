@@ -83,17 +83,17 @@ const row = new MessageActionRow()
 
      await message.author.send({ content: 'Rules time!', ephemeral: true, embeds: [embed], components: [row] });
      message.channel.send("Please check your DMS!")
-    }
-} else {
+    } else {
         message.channel.send('Please check your DMS!')
-    	    const linkID = pool.createLink(message.author.id);
-    const embed2 = new MessageEmbed()
-        .setTitle('reCAPTCHA Verification')
-        .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
-        .setColor('BLUE');
-    message.author.send({ embeds: [embed2] }).catch(() => {
-        logger.error(`Failed to send captcha to user! (Maybe they have DMs turned off?)`);
-})}
+        const linkID = pool.createLink(message.author.id);
+const embed2 = new MessageEmbed()
+    .setTitle('reCAPTCHA Verification')
+    .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
+    .setColor('BLUE');
+message.author.send({ embeds: [embed2] }).catch(() => {
+    logger.error(`Failed to send captcha to user! (Maybe they have DMs turned off?)`);
+});
+}}
 });
 
 // Events
@@ -151,4 +151,4 @@ module.exports = {
     run: main,
     addRole,
     removeRole
-};
+}
