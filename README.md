@@ -22,7 +22,7 @@ npm start
 ### Not receiving a DM when joining my server
 If you are not receiving a DM when joining your server, Go to your Discord bot dashboard and enable both intents. Note: If your bot is more than 100 servers, you will have to verify your bot.
 ### Bot failing to login
-If you have `privileged-intents` set to `true` in the config, you must go to your Discord bot dashboard and enable both intents. Note: If your bot is more than 100 servers, you will have to verify your bot.
+You must go to your Discord bot dashboard and enable both intents. Note: If your bot is more than 100 servers, you will have to verify your bot.
 
 ![Intents](https://i.imgur.com/D2fDMjE.png)
 
