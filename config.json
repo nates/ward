@@ -1,6 +1,7 @@
 {
     "domain": "localhost",
     "https": false,
+    "http_port": 80,
     "discord": {
         "token": "",
         "guild-id": "",
