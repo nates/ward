@@ -14,7 +14,7 @@ const config = require('./config.json');
 // Variables
 const logger = new Signale({ scope: 'Express' });
 const app = express();
-const port = config.https ? 443 : 80;
+const port = config.https ? 443 : config.http_port;
 
 // Define render engine and assets path
 app.engine('html', require('ejs').renderFile);
