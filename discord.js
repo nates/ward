@@ -104,7 +104,7 @@ client.on('guildMemberAdd', member => {
         .setTitle('reCAPTCHA Verification')
         .setDescription(`To gain access to this server you must solve a captcha. The link will expire in 15 minutes.\n${config.https ? 'https://' : 'http://'}${config.domain}/verify/${linkID}`)
         .setColor('BLUE');
-    member.send(embed).catch(() => {
+    member.send({ embeds: [embed] }).catch(() => {
         logger.error(`Failed to send captcha to ${member.user.tag}! (Maybe they have DMs turned off?)`);
     });
 });
