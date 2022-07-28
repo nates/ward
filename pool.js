@@ -1,15 +1,14 @@
-// Packages
-const crypto = require('crypto');
-const { Signale } = require('signale');
 
-// Variables
-const logger = new Signale({ scope: 'Pool' });
+// —— Requiring the packages that we need for this file.
+const { Signale } = require('signale');
+const createCode = require('./public/util.js').createCode;
+const logger = new Signale({ scope: 'Pool' }); 
+
+// —— Making the functions!!
 let linkPool = [];
 
-// Functions
-// Create a link ID for a user
-function createLink(discordID) {
-    const linkID = crypto.randomBytes(4).toString('hex');
+function createLink(discordID) { 
+    const linkID = createCode(8);
     linkPool.push({
         discordID: discordID,
         linkID: linkID
@@ -21,27 +20,20 @@ function createLink(discordID) {
     return linkID;
 }
 
-// Checks if link ID exists
 function isValidLink(linkID) {
     for (let i = 0; i < linkPool.length; i++) if (linkPool[i].linkID == linkID) return true;
     return false;
 }
 
-// Remove link
 function removeLink(linkID) {
     for (let i = 0; i < linkPool.length; i++) if (linkPool[i].linkID == linkID) delete linkPool[i];
     linkPool = linkPool.filter(n => n);
 }
 
-// Get Discord ID from link ID
 function getDiscordId(linkID) {
     for (let i = 0; i < linkPool.length; i++) if (linkPool[i].linkID == linkID) return linkPool[i].discordID;
     return false;
 }
 
-module.exports = {
-    isValidLink,
-    removeLink,
-    createLink,
-    getDiscordId
-};
+
+module.exports = { isValidLink, removeLink, createLink, getDiscordId };
