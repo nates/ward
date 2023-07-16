@@ -7,7 +7,6 @@ module.exports = {
 
     Discord: {
         // —— Things that are required for the whole project to work.
-        prefix: "!", // —— Deprecated lol.
         token: "", // —— Your bot's token.
         botId: "", // —— The bot's ID.
         guildId: "", // —— The server ID on where the commands will be deployed.
